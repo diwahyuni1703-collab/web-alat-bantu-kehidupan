@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0f1724"/>
+  <link rel="manifest" href="manifest.json">
+  <title>Dashboard Kehidupan Sehari-hari</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Dashboard Kehidupan Sehari-hari</h1>
+        <div class="sub">To‑do, planner, habit, catatan, belanja, pengeluaran, timer & cuaca — tersimpan lokal.</div>
+      </div>
+      <div class="row">
+        <div id="today" class="pill">...</div>
+        <button id="exportBtn" title="Export semua data">Export</button>
+        <button id="importBtn" title="Import data JSON">Import</button>
+        <input id="importFile" type="file" accept="application/json" style="display:none" />
+      </div>
+    </header>
+
+    <main class="grid">
+      <aside class="card span-4">
+        <h3>Cuaca Sekarang</h3>
+        <div id="weather" class="small-muted">Klik tombol di bawah untuk mendapatkan cuaca (butuh izin lokasi).</div>
+        <div class="row" style="margin-top:10px">
+          <button id="getWeather">Dapatkan Cuaca</button>
+          <button id="clearWeather" class="btn-ghost">Hapus</button>
+        </div>
+        <div id="weatherCard" class="card hidden" style="margin-top:12px">
+          <div id="weatherPlace" class="small"></div>
+          <div id="weatherMain" style="font-size:18px;margin-top:6px"></div>
+          <div id="weatherDetails" class="small-muted" style="margin-top:6px"></div>
+        </div>
+      </aside>
+
+      <section class="card span-8">
+        <h3>Planner Harian</h3>
+        <div class="small-muted">Tambah kegiatan dengan jam.</div>
+        <div class="row" style="margin-top:10px">
+          <input id="planText" placeholder="Nama kegiatan..." />
+          <input id="planTime" type="time" style="width:120px" />
+          <button id="addPlan">Tambah</button>
+        </div>
+        <ul id="plans" class="list" style="margin-top:12px"></ul>
+      </section>
+
+      <section class="card span-8">
+        <h3>To‑Do List</h3>
+        <div class="small-muted">Checklist tugas harian — klik untuk tandai selesai.</div>
+        <div class="row" style="margin-top:10px">
+          <input id="todoInput" placeholder="Tugas baru..." />
+          <select id="todoTag" style="width:120px">
+            <option value="umum">Umum</option>
+            <option value="kerja">Kerja</option>
+            <option value="pribadi">Pribadi</option>
+          </select>
+          <button id="addTodo">Tambah</button>
+        </div>
+        <ul id="todoList" class="list" style="margin-top:12px"></ul>
+      </section>
+
+      <section class="card span-4">
+        <h3>Habit Tracker</h3>
+        <div class="small-muted">Catat kebiasaan; klik hari untuk tandai.</div>
+        <div class="row" style="margin-top:10px">
+          <input id="habitName" placeholder="Mis. Olahraga" />
+          <button id="addHabit">Tambah</button>
+        </div>
+        <div id="habits" style="margin-top:12px"></div>
+      </section>
+
+      <section class="card span-6">
+        <h3>Catatan Cepat</h3>
+        <textarea id="noteText" placeholder="Tulis catatan... (nama resep, ide, nomor) "></textarea>
+        <div class="row" style="margin-top:8px">
+          <button id="saveNote">Simpan</button>
+          <button id="clearNotes" class="btn-ghost">Hapus Semua</button>
+        </div>
+        <div class="note-list" id="notesList"></div>
+      </section>
+
+      <section class="card span-6">
+        <h3>Daftar Belanja</h3>
+        <div class="row" style="margin-top:10px">
+          <input id="shopInput" placeholder="Item..." />
+          <button id="addShop">Tambah</button>
+        </div>
+        <ul id="shopList" class="list" style="margin-top:10px"></ul>
+      </section>
+
+      <section class="card span-6">
+        <h3>Pengeluaran Cepat</h3>
+        <div class="small-muted">Catat pengeluaran harian.</div>
+        <div class="row" style="margin-top:10px">
+          <input id="expText" placeholder="Keterangan" />
+          <input id="expAmount" type="number" placeholder="Rp" style="width:120px" />
+          <button id="addExp">Tambah</button>
+        </div>
+        <div class="expense-list" id="expenses"></div>
+        <div class="row" style="margin-top:8px">
+          <div class="small-muted">Total:</div>
+          <div id="expTotal" class="right pill">Rp 0</div>
+        </div>
+      </section>
+
+      <section class="card span-6">
+        <h3>Timer & Alat Cepat</h3>
+        <div class="row" style="align-items:center">
+          <input id="timerMin" type="number" min="1" placeholder="Menit" style="width:120px" />
+          <button id="startTimer">Mulai</button>
+          <button id="stopTimer" class="btn-danger">Stop</button>
+        </div>
+        <div id="timerStatus" class="small-muted" style="margin-top:10px">Belum ada timer aktif.</div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(0,0,0,0.06)" />
+        <div class="small-muted">Konverter cepat</div>
+        <div class="row" style="margin-top:8px">
+          <input id="convA" placeholder="Angka" />
+          <select id="convType">
+            <option value="*">x2</option>
+            <option value="/">/2</option>
+            <option value="%">%10</option>
+          </select>
+          <button id="doConv">Convert</button>
+        </div>
+        <div id="convRes" class="pill" style="margin-top:8px">—</div>
+      </section>
+
+    </main>
+
+    <footer class="card span-12">
+      <h3>Petunjuk singkat & Privasi</h3>
+      <div class="small-muted">Semua data disimpan di peramban (localStorage). Gunakan Export / Import untuk memindahkan data. Weather memakai Open‑Meteo (tidak perlu API key). Tidak ada data dikirim ke server.</div>
+    </footer>
+
+  </div>
+
+  <script src="app.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(()=>{console.log('SW register failed');});
+    }
+  </script>
+</body>
+</html>
